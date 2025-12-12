@@ -1,0 +1,110 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8">
+    <div>
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        MexAula
+      </h2>
+      <p class="mt-2 text-center text-sm text-gray-600">
+        Crea tu cuenta
+      </p>
+    </div>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="mt-8 space-y-6">
+      <div class="rounded-md shadow-sm space-y-4">
+        <div>
+          <label for="nombre" class="block text-sm font-medium text-gray-700">
+            Nombre
+          </label>
+          <input id="nombre"
+                 formControlName="nombre"
+                 type="text"
+                 required
+                 [class.border-red-500]="registerForm.get('nombre')?.invalid && registerForm.get('nombre')?.touched"
+                 class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <p *ngIf="registerForm.get('nombre')?.invalid && registerForm.get('nombre')?.touched"
+             class="mt-1 text-sm text-red-600">
+            El nombre es requerido
+          </p>
+        </div>
+
+        <div>
+          <label for="apellido" class="block text-sm font-medium text-gray-700">
+            Apellido
+          </label>
+          <input id="apellido"
+                 formControlName="apellido"
+                 type="text"
+                 required
+                 [class.border-red-500]="registerForm.get('apellido')?.invalid && registerForm.get('apellido')?.touched"
+                 class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <p *ngIf="registerForm.get('apellido')?.invalid && registerForm.get('apellido')?.touched"
+             class="mt-1 text-sm text-red-600">
+            El apellido es requerido
+          </p>
+        </div>
+
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700">
+            Correo electrónico
+          </label>
+          <input id="email"
+                 formControlName="email"
+                 type="email"
+                 required
+                 [class.border-red-500]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+                 class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <p *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+             class="mt-1 text-sm text-red-600">
+            Email inválido
+          </p>
+        </div>
+
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700">
+            Contraseña
+          </label>
+          <input id="password"
+                 formControlName="password"
+                 type="password"
+                 required
+                 [class.border-red-500]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+                 class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <p *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+             class="mt-1 text-sm text-red-600">
+            La contraseña debe tener al menos 6 caracteres
+          </p>
+        </div>
+
+        <div>
+          <label for="rolDeseado" class="block text-sm font-medium text-gray-700">
+            Tipo de cuenta
+          </label>
+          <select id="rolDeseado"
+                  formControlName="rolDeseado"
+                  class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            <option value="ALUMNO">Alumno</option>
+            <option value="PADRE">Padre</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="submit"
+                [disabled]="registerForm.invalid || isLoading"
+                class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed">
+          <span *ngIf="!isLoading">Registrarse</span>
+          <span *ngIf="isLoading">Cargando...</span>
+        </button>
+      </div>
+
+      <div class="text-center">
+        <p class="text-sm text-gray-600">
+          ¿Ya tienes cuenta?
+          <a routerLink="/auth/login" class="font-medium text-indigo-600 hover:text-indigo-500">
+            Inicia sesión aquí
+          </a>
+        </p>
+      </div>
+    </form>
+  </div>
+</div>
+

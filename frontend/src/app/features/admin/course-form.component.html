@@ -1,0 +1,60 @@
+<div class="py-6">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">
+      {{ isEditMode ? 'Editar Curso' : 'Crear Curso' }}
+    </h1>
+
+    <form [formGroup]="courseForm" (ngSubmit)="onSubmit()" class="space-y-6 bg-white shadow px-6 py-8 rounded-lg">
+      <div>
+        <label for="titulo" class="block text-sm font-medium text-gray-700">Título</label>
+        <input id="titulo" formControlName="titulo" type="text"
+               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+      </div>
+
+      <div>
+        <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
+        <textarea id="descripcion" formControlName="descripcion" rows="4"
+                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+      </div>
+
+      <div>
+        <label for="nivel" class="block text-sm font-medium text-gray-700">Nivel</label>
+        <select id="nivel" formControlName="nivel"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+          <option value="BASICO">Básico</option>
+          <option value="INTERMEDIO">Intermedio</option>
+          <option value="AVANZADO">Avanzado</option>
+        </select>
+      </div>
+
+      <div *ngIf="!isEditMode && teachers.length > 0">
+        <label for="maestroId" class="block text-sm font-medium text-gray-700">Maestro</label>
+        <select id="maestroId" formControlName="maestroId"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+          <option value="">Seleccionar maestro</option>
+          <option *ngFor="let teacher of teachers" [value]="teacher.id">
+            {{ teacher.nombre }} {{ teacher.apellido }}
+          </option>
+        </select>
+      </div>
+
+      <div class="flex items-center">
+        <input id="publicado" formControlName="publicado" type="checkbox"
+               class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+        <label for="publicado" class="ml-2 block text-sm text-gray-900">Publicado</label>
+      </div>
+
+      <div class="flex space-x-4">
+        <button type="submit" [disabled]="courseForm.invalid || isLoading"
+                class="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50">
+          {{ isLoading ? 'Guardando...' : 'Guardar' }}
+        </button>
+        <button type="button" (click)="goBack()"
+                class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+

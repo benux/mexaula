@@ -1,0 +1,75 @@
+<div class="py-6">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <button (click)="goBack()" class="mb-4 text-indigo-600 hover:text-indigo-800 flex items-center">
+      <svg class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+      Volver
+    </button>
+
+    <div *ngIf="isLoading" class="text-center py-12">
+      <p class="text-gray-500">Cargando progreso...</p>
+    </div>
+
+    <div *ngIf="!isLoading && progress">
+      <h1 class="text-3xl font-bold text-gray-900 mb-8">Progreso de {{ progress.childNombre }}</h1>
+
+      <div *ngIf="progress.cursos.length === 0" class="text-center py-12 bg-white rounded-lg shadow">
+        <p class="text-gray-500">Este alumno no está inscrito en ningún curso</p>
+      </div>
+
+      <div *ngIf="progress.cursos.length > 0" class="space-y-4">
+        <div *ngFor="let curso of progress.cursos"
+             class="bg-white overflow-hidden shadow rounded-lg">
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-4">
+              <h3 class="text-lg font-semibold text-gray-900">{{ curso.titulo }}</h3>
+              <span [class]="curso.completado ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'"
+                    class="px-3 py-1 text-xs font-semibold rounded-full">
+                {{ curso.completado ? 'Completado' : 'En Progreso' }}
+              </span>
+            </div>
+
+            <div class="mb-2">
+              <div class="flex justify-between text-sm text-gray-600 mb-1">
+                <span>Progreso</span>
+                <span>{{ curso.progresoPorcentaje }}%</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2.5">
+                <div [style.width.%]="curso.progresoPorcentaje"
+                     [class]="curso.completado ? 'bg-green-600' : 'bg-blue-600'"
+                     class="h-2.5 rounded-full transition-all duration-300"></div>
+              </div>
+            </div>
+
+            <div *ngIf="curso.completado" class="mt-4 flex items-center text-green-600">
+              <svg class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span class="text-sm font-medium">Curso completado</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="progress.cursos.length > 0" class="mt-8 bg-white rounded-lg shadow p-6">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Resumen</h2>
+        <div class="grid grid-cols-3 gap-4 text-center">
+          <div>
+            <p class="text-3xl font-bold text-indigo-600">{{ progress.cursos.length }}</p>
+            <p class="text-sm text-gray-600">Cursos Totales</p>
+          </div>
+          <div>
+            <p class="text-3xl font-bold text-green-600">{{ getCompletedCount() }}</p>
+            <p class="text-sm text-gray-600">Completados</p>
+          </div>
+          <div>
+            <p class="text-3xl font-bold text-blue-600">{{ getAverageProgress() }}%</p>
+            <p class="text-sm text-gray-600">Progreso Promedio</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

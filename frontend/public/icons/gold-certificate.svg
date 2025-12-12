@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <circle cx="32" cy="32" r="30" fill="#FBBF24" opacity="0.2"/>
+  <path d="M32 8L38 24L54 26L42 38L45 54L32 46L19 54L22 38L10 26L26 24L32 8Z" fill="#FBBF24"/>
+  <path d="M32 8L38 24L54 26L42 38L45 54L32 46L19 54L22 38L10 26L26 24L32 8Z" fill="url(#goldGradient)"/>
+  <circle cx="32" cy="32" r="12" fill="white" opacity="0.3"/>
+  <text x="32" y="38" font-family="Arial, sans-serif" font-size="14" fill="#92400E" text-anchor="middle" font-weight="bold">🏆</text>
+  <defs>
+    <linearGradient id="goldGradient" x1="32" y1="8" x2="32" y2="54">
+      <stop offset="0%" stop-color="#FDE68A"/>
+      <stop offset="50%" stop-color="#FBBF24"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+  </defs>
+</svg>
+

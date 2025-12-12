@@ -1,0 +1,75 @@
+<div class="py-6">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div *ngIf="isLoading" class="text-center py-12">
+      <p class="text-gray-500">Cargando curso...</p>
+    </div>
+
+    <div *ngIf="!isLoading && course">
+      <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6">
+          <h1 class="text-3xl font-bold text-gray-900">{{ course.titulo }}</h1>
+          <div class="mt-4 flex items-center space-x-4">
+            <span [class]="getLevelClass(course.nivel)"
+                  class="px-3 py-1 text-sm font-semibold rounded-full">
+              {{ getLevelLabel(course.nivel) }}
+            </span>
+            <span *ngIf="course.publicado"
+                  class="px-3 py-1 text-sm font-semibold rounded-full bg-green-100 text-green-800">
+              Publicado
+            </span>
+          </div>
+        </div>
+
+        <div class="border-t border-gray-200">
+          <dl>
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm font-medium text-gray-500">Descripción</dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {{ course.descripcion }}
+              </dd>
+            </div>
+            <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6" *ngIf="course.maestroNombre">
+              <dt class="text-sm font-medium text-gray-500">Maestro</dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {{ course.maestroNombre }}
+              </dd>
+            </div>
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm font-medium text-gray-500">Fecha de creación</dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {{ course.creadoEn | date:'medium' }}
+              </dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="px-4 py-5 sm:px-6 flex space-x-4">
+          <!-- Mostrar botón de inscribirse solo si NO está inscrito -->
+          <button *ngIf="!isEnrolled"
+                  (click)="enroll()"
+                  class="px-6 py-3 bg-green-600 text-white font-medium rounded-md hover:bg-green-700">
+            Inscribirse en el curso
+          </button>
+          <!-- Mostrar label si YA está inscrito -->
+          <span *ngIf="isEnrolled"
+                class="px-6 py-3 bg-green-100 text-green-800 font-medium rounded-md">
+            Ya estás inscrito
+          </span>
+          <button (click)="goBack()"
+                  class="px-6 py-3 bg-gray-300 text-gray-700 font-medium rounded-md hover:bg-gray-400">
+            Volver
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoading && !course" class="text-center py-12">
+      <p class="text-gray-500">Curso no encontrado</p>
+      <button (click)="goBack()"
+              class="mt-4 px-6 py-3 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700">
+        Volver
+      </button>
+    </div>
+  </div>
+</div>
+

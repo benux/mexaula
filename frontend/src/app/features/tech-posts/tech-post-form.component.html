@@ -1,0 +1,129 @@
+<div class="py-6">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">
+      {{ isEditMode ? 'Editar Publicación' : 'Nueva Publicación' }}
+    </h1>
+
+    <!-- Error -->
+    @if (error) {
+      <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
+        {{ error }}
+      </div>
+    }
+
+    <!-- Loading -->
+    @if (loading && isEditMode) {
+      <div class="flex justify-center items-center py-12">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      </div>
+    }
+
+    <!-- Form -->
+    @if (!loading || !isEditMode) {
+      <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="space-y-6 bg-white shadow px-6 py-8 rounded-lg">
+        <!-- Título -->
+        <div>
+          <label for="titulo" class="block text-sm font-medium text-gray-700">
+            Título *
+          </label>
+          <input type="text" id="titulo" formControlName="titulo"
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                 placeholder="Título del artículo">
+          @if (postForm.get('titulo')?.invalid && postForm.get('titulo')?.touched) {
+            <p class="text-red-500 text-sm mt-1">El título es requerido (máx. 200 caracteres)</p>
+          }
+        </div>
+
+        <!-- Slug -->
+        <div>
+          <label for="slug" class="block text-sm font-medium text-gray-700">
+            Slug (URL) *
+          </label>
+          <input type="text" id="slug" formControlName="slug"
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                 placeholder="titulo-del-articulo">
+          @if (postForm.get('slug')?.invalid && postForm.get('slug')?.touched) {
+            <p class="text-red-500 text-sm mt-1">El slug es requerido (máx. 250 caracteres)</p>
+          }
+          <p class="text-gray-500 text-xs mt-1">Se genera automáticamente del título, pero puedes editarlo</p>
+        </div>
+
+        <!-- Resumen -->
+        <div>
+          <label for="resumen" class="block text-sm font-medium text-gray-700">
+            Resumen *
+          </label>
+          <textarea id="resumen" formControlName="resumen" rows="3"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="Breve descripción del artículo"></textarea>
+          @if (postForm.get('resumen')?.invalid && postForm.get('resumen')?.touched) {
+            <p class="text-red-500 text-sm mt-1">El resumen es requerido</p>
+          }
+        </div>
+
+        <!-- Contenido Markdown -->
+        <div>
+          <label for="contenidoMarkdown" class="block text-sm font-medium text-gray-700">
+            Contenido (Markdown) *
+          </label>
+          <textarea id="contenidoMarkdown" formControlName="contenidoMarkdown" rows="15"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 font-mono text-sm"
+                    placeholder="# Título&#10;&#10;Tu contenido en markdown..."></textarea>
+          @if (postForm.get('contenidoMarkdown')?.invalid && postForm.get('contenidoMarkdown')?.touched) {
+            <p class="text-red-500 text-sm mt-1">El contenido es requerido</p>
+          }
+          <p class="text-gray-500 text-xs mt-1">Escribe el contenido usando sintaxis Markdown</p>
+        </div>
+
+        <!-- Categoría -->
+        <div>
+          <label for="categoria" class="block text-sm font-medium text-gray-700">
+            Categoría
+          </label>
+          <input type="text" id="categoria" formControlName="categoria"
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                 placeholder="Ej: Frontend, Backend, DevOps">
+          <p class="text-gray-500 text-xs mt-1">Opcional: categoría del artículo</p>
+        </div>
+
+        <!-- Etiquetas -->
+        <div>
+          <label for="etiquetas" class="block text-sm font-medium text-gray-700">
+            Etiquetas
+          </label>
+          <input type="text" id="etiquetas" formControlName="etiquetas"
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                 placeholder="javascript, angular, typescript">
+          <p class="text-gray-500 text-xs mt-1">Separadas por comas</p>
+        </div>
+
+        <!-- Estado -->
+        <div>
+          <label for="estado" class="block text-sm font-medium text-gray-700">
+            Estado *
+          </label>
+          <select id="estado" formControlName="estado"
+                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+            <option value="DRAFT">Borrador</option>
+            <option value="PUBLISHED">Publicado</option>
+          </select>
+          <p class="text-gray-500 text-xs mt-1">Los borradores solo son visibles para administradores</p>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex space-x-4">
+          <button type="submit" [disabled]="loading || postForm.invalid"
+                  class="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50">
+            {{ loading ? 'Guardando...' : (isEditMode ? 'Actualizar' : 'Publicar') }}
+          </button>
+          <button type="button" (click)="cancel()"
+                  class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+                  [disabled]="loading">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    }
+  </div>
+</div>
+

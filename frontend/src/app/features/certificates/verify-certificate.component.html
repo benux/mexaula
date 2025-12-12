@@ -1,0 +1,66 @@
+<div class="py-6">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">Verificar Certificado</h1>
+
+    <div class="bg-white shadow px-6 py-8 rounded-lg">
+      <form [formGroup]="verifyForm" (ngSubmit)="onSubmit()" class="mb-8">
+        <label class="block text-sm font-medium text-gray-700 mb-2">Código de Verificación</label>
+        <div class="flex space-x-4">
+          <input formControlName="code" type="text" placeholder="Ingresa el código del certificado"
+                 class="flex-1 px-3 py-2 border border-gray-300 rounded-md">
+          <button type="submit" [disabled]="verifyForm.invalid || isLoading"
+                  class="px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50">
+            {{ isLoading ? 'Verificando...' : 'Verificar' }}
+          </button>
+        </div>
+      </form>
+
+      <div *ngIf="certificate" class="border-t border-gray-200 pt-6">
+        <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-6">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm text-green-700 font-medium">Certificado Válido</p>
+            </div>
+          </div>
+        </div>
+
+        <dl class="grid grid-cols-1 gap-4">
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Curso</dt>
+            <dd class="mt-1 text-lg font-semibold text-gray-900">{{ certificate.cursoTitulo }}</dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Código de Verificación</dt>
+            <dd class="mt-1 text-sm text-gray-900">{{ certificate.codigoVerificacion }}</dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Fecha de Emisión</dt>
+            <dd class="mt-1 text-sm text-gray-900">{{ certificate.fechaEmision | date:'medium' }}</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div *ngIf="notFound" class="border-t border-gray-200 pt-6">
+        <div class="bg-red-50 border-l-4 border-red-400 p-4">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm text-red-700 font-medium">Certificado no encontrado</p>
+              <p class="mt-1 text-sm text-red-600">El código ingresado no corresponde a ningún certificado válido.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

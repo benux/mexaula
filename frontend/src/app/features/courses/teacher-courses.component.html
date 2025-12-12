@@ -1,0 +1,48 @@
+<div class="py-6">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center">
+      <h1 class="text-3xl font-bold text-gray-900">Mis Cursos (Maestro)</h1>
+      <a routerLink="/admin/courses/new"
+         class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+        Crear Curso
+      </a>
+    </div>
+
+    <div *ngIf="isLoading" class="text-center py-12">
+      <p class="text-gray-500">Cargando cursos...</p>
+    </div>
+
+    <div *ngIf="!isLoading && courses.length === 0" class="text-center py-12">
+      <p class="text-gray-500">No tienes cursos creados</p>
+    </div>
+
+    <div *ngIf="!isLoading && courses.length > 0"
+         class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div *ngFor="let course of courses"
+           class="bg-white overflow-hidden shadow-lg rounded-lg">
+        <div class="p-6">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="text-xl font-semibold text-gray-900">{{ course.titulo }}</h3>
+            <span [class]="course.publicado ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'"
+                  class="px-2 py-1 text-xs font-semibold rounded-full">
+              {{ course.publicado ? 'Publicado' : 'Borrador' }}
+            </span>
+          </div>
+          <p class="text-gray-600 text-sm mb-4">{{ course.descripcion }}</p>
+          <div class="flex space-x-2">
+            <a [routerLink]="['/admin/courses', course.id, 'edit']"
+               class="flex-1 text-center px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+              Editar
+            </a>
+            <!-- Navegar a la ruta específica del maestro -->
+            <a [routerLink]="['/maestro/mis-cursos/curso', course.id]"
+               class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
+              Ver
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

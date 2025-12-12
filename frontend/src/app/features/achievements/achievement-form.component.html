@@ -1,0 +1,125 @@
+<div class="py-6">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">
+      {{ isEditMode ? 'Editar Logro' : 'Crear Logro' }}
+    </h1>
+
+    <!-- Error -->
+    @if (error) {
+      <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
+        {{ error }}
+      </div>
+    }
+
+    <!-- Loading -->
+    @if (loading && isEditMode) {
+      <div class="flex justify-center items-center py-12">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      </div>
+    }
+
+    <!-- Form -->
+    @if (!loading || !isEditMode) {
+      <form [formGroup]="achievementForm" (ngSubmit)="onSubmit()" class="space-y-6 bg-white shadow px-6 py-8 rounded-lg">
+        <!-- Título -->
+        <div>
+          <label for="titulo" class="block text-sm font-medium text-gray-700">
+            Título *
+          </label>
+          <input type="text" id="titulo" formControlName="titulo"
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                 placeholder="Ej: Primer Curso Completado">
+          @if (achievementForm.get('titulo')?.invalid && achievementForm.get('titulo')?.touched) {
+            <p class="text-red-500 text-sm mt-1">El título es requerido (máx. 100 caracteres)</p>
+          }
+        </div>
+
+        <!-- Descripción -->
+        <div>
+          <label for="descripcion" class="block text-sm font-medium text-gray-700">
+            Descripción *
+          </label>
+          <textarea id="descripcion" formControlName="descripcion" rows="3"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="Descripción del logro"></textarea>
+          @if (achievementForm.get('descripcion')?.invalid && achievementForm.get('descripcion')?.touched) {
+            <p class="text-red-500 text-sm mt-1">La descripción es requerida</p>
+          }
+        </div>
+
+        <!-- URL del ícono -->
+        <div>
+          <label for="iconoUrl" class="block text-sm font-medium text-gray-700">
+            URL del Ícono
+          </label>
+          <input type="text" id="iconoUrl" formControlName="iconoUrl"
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                 placeholder="https://ejemplo.com/icono.png">
+          <p class="text-gray-500 text-xs mt-1">Opcional: URL de la imagen del icono (se usará un icono por defecto si se deja vacío)</p>
+        </div>
+
+        <!-- Tipo -->
+        <div>
+          <label for="tipo" class="block text-sm font-medium text-gray-700">
+            Tipo *
+          </label>
+          <select id="tipo" formControlName="tipo"
+                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+            @for (type of achievementTypes; track type) {
+              <option [value]="type">{{ type }}</option>
+            }
+          </select>
+          <p class="text-gray-500 text-xs mt-1">SYSTEM: automático, CUSTOM: manual</p>
+        </div>
+
+        <!-- Código de Criterio -->
+        <div>
+          <label for="criterioCodigo" class="block text-sm font-medium text-gray-700">
+            Código de Criterio *
+          </label>
+          <input type="text" id="criterioCodigo" formControlName="criterioCodigo"
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                 placeholder="Ej: COMPLETE_FIRST_COURSE">
+          @if (achievementForm.get('criterioCodigo')?.invalid && achievementForm.get('criterioCodigo')?.touched) {
+            <p class="text-red-500 text-sm mt-1">El código de criterio es requerido (máx. 50 caracteres)</p>
+          }
+          <p class="text-gray-500 text-xs mt-1">Identificador único del criterio de obtención</p>
+        </div>
+
+        <!-- Puntos -->
+        <div>
+          <label for="puntos" class="block text-sm font-medium text-gray-700">
+            Puntos *
+          </label>
+          <input type="number" id="puntos" formControlName="puntos"
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                 min="0">
+          @if (achievementForm.get('puntos')?.invalid && achievementForm.get('puntos')?.touched) {
+            <p class="text-red-500 text-sm mt-1">Los puntos son requeridos (mínimo 0)</p>
+          }
+        </div>
+
+        <!-- Activo -->
+        <div class="flex items-center">
+          <input type="checkbox" id="activo" formControlName="activo"
+                 class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+          <label for="activo" class="ml-2 block text-sm text-gray-900">Logro activo</label>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex space-x-4">
+          <button type="submit" [disabled]="loading || achievementForm.invalid"
+                  class="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50">
+            {{ loading ? 'Guardando...' : (isEditMode ? 'Actualizar' : 'Crear') }}
+          </button>
+          <button type="button" (click)="cancel()"
+                  class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+                  [disabled]="loading">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    }
+  </div>
+</div>
+

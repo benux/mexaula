@@ -1,0 +1,34 @@
+<div class="py-6">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h1 class="text-3xl font-bold text-gray-900">Mis Inscripciones</h1>
+
+    <div *ngIf="isLoading" class="text-center py-12">
+      <p class="text-gray-500">Cargando cursos...</p>
+    </div>
+
+    <div *ngIf="!isLoading && courses.length === 0" class="text-center py-12">
+      <p class="text-gray-500">No estás inscrito en ningún curso</p>
+      <a routerLink="/courses"
+         class="mt-4 inline-block px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+        Explorar Cursos
+      </a>
+    </div>
+
+    <div *ngIf="!isLoading && courses.length > 0"
+         class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div *ngFor="let course of courses"
+           class="bg-white overflow-hidden shadow-lg rounded-lg">
+        <div class="p-6">
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ course.titulo }}</h3>
+          <p class="text-gray-600 text-sm mb-4">{{ course.descripcion }}</p>
+          <!-- Navegar a la ruta específica de inscripciones del alumno -->
+          <a [routerLink]="['/alumno/mis-inscripciones/curso', course.id]"
+             class="block text-center px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+            Ver Curso
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

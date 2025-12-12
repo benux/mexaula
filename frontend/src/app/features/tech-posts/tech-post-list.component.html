@@ -1,0 +1,87 @@
+<div class="py-6">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-8">
+      <h1 class="text-4xl font-bold text-gray-900 mb-2">Información Técnica</h1>
+      <p class="text-gray-600">Artículos y recursos educativos sobre tecnología</p>
+    </div>
+
+    <!-- Loading -->
+    @if (loading) {
+      <div class="text-center py-12">
+        <p class="text-gray-500">Cargando publicaciones...</p>
+      </div>
+    }
+
+    <!-- Error -->
+    @if (error) {
+      <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
+        {{ error }}
+      </div>
+    }
+
+    <!-- No posts -->
+    @if (!loading && !error && posts.length === 0) {
+      <div class="bg-white rounded-lg shadow p-12 text-center">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+        <h3 class="mt-2 text-sm font-medium text-gray-900">No hay publicaciones</h3>
+        <p class="mt-1 text-sm text-gray-500">No se encontraron publicaciones técnicas.</p>
+      </div>
+    }
+
+    <!-- Posts Grid -->
+    @if (!loading && posts.length > 0) {
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        @for (post of posts; track post.id) {
+          <article class="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow cursor-pointer"
+                   (click)="viewPost(post.slug)">
+            <div class="p-6">
+              <!-- Category -->
+              @if (post.categoria) {
+                <span class="px-3 py-1 text-xs font-semibold rounded-full" [ngClass]="getCategoryColor(post.categoria)">
+                  {{ post.categoria }}
+                </span>
+              }
+
+              <!-- Title -->
+              <h2 class="text-xl font-bold text-gray-900 mt-4 mb-2 line-clamp-2">
+                {{ post.titulo }}
+              </h2>
+
+              <!-- Summary -->
+              <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+                {{ post.resumen }}
+              </p>
+
+              <!-- Tags -->
+              @if (post.etiquetas.length > 0) {
+                <div class="flex flex-wrap gap-2 mb-4">
+                  @for (tag of post.etiquetas; track tag) {
+                    <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">
+                      #{{ tag }}
+                    </span>
+                  }
+                </div>
+              }
+
+              <!-- Footer -->
+              <div class="flex items-center justify-between text-sm text-gray-500 pt-4 border-t border-gray-200">
+                <span class="flex items-center">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                  </svg>
+                  {{ post.autorNombre }}
+                </span>
+                <span>{{ post.creadoEn | date:'dd/MM/yyyy' }}</span>
+              </div>
+            </div>
+          </article>
+        }
+    </div>
+  }
+  </div>
+</div>
+
